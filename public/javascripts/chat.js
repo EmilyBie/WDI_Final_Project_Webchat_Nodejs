@@ -2,14 +2,18 @@
 
 jQuery(function($){
 
+  //group chat
   var socket = io.connect();
   var $nickForm = $("#setNick");
   var $nickError = $("#nickError");
   var $nickBox = $("#nickname");
   var $users = $('#users');
+  var $usersList = $('.users-list');
   var $messageForm = $("#send-message");
   var $messageBox = $("#message");
   var $chat = $("#chat");
+  var $chatMsgList = $('.chat-msg-list');
+
 
   $nickForm.submit(function(e) {
     e.preventDefault();
@@ -18,7 +22,7 @@ jQuery(function($){
         $('#nickWrap').hide();
         $("#contentWrap").show();
       } else {
-        $nickError.html("That username is already taken, try again!");
+        $nickError.html("Nickname is taken, try again!");
       }
 
     });
@@ -33,6 +37,14 @@ jQuery(function($){
     $messageBox.val("");
   });
 
+  $messageBox.keypress(function(e) {
+    var code = (e.keyCode? e.keyCode : e.which);
+    if (code === 13) {
+      $messageForm.trigger('submit');
+      return true;
+    }
+  });
+
   socket.on('load old msgs', function(docs) {
     for(var i=docs.length-1; i>= 0; i--) {
       displayMsgs(docs[i]);
@@ -44,19 +56,19 @@ jQuery(function($){
   });
 
   function displayMsgs(data) {
-    $chat.append("<span class='msg'><b>"+ data.nick+ ": </b>" + data.msg + '</span><br/>');
+    $chatMsgList.append("<li class='msg'><b>"+ data.nick+ ": </b>" + data.msg + '</li><br/>');
   }
 
   socket.on('usernames', function(data) {
     var html = '';
     for(var i=0; i<data.length;i++) {
-      html += data[i] +'<br/>';
+      html += '<li class="user-item">'+data[i] +'</li>';
     }
-    $users.html(html);
+    $usersList.html(html);
   });
 
   socket.on('whisper', function(data) {
-    $chat.append("<span class= 'whisper'><b>"+ data.nick+ ": </b>" + data.msg + '</span><br/>');
+    $chatMsgList.append("<li class= 'whisper'><b>"+ data.nick+ ": </b>" + data.msg + '</li><br/>');
   });
 
 });

@@ -1,24 +1,46 @@
 <% layout('layout') -%>
 
-  <h2>Group chat room </h2>
+  <header class="banner">
+    <h1 class="bannertext">
+      <a href="" id="logo">Webchat <span>Application</span>: Group chat room</a>
+    </h1>
+  </header>
   
   <div id="nickWrap">
-    <p>Enter a username:</p>
-    <p id="nickError"></p>
-    <form id="setNick">
-      <input type="text" id="nickname">
-      <input type="submit">
-    </form>
+    <img src="http://www.neton.com.au/wp-content/uploads/2011/06/icon-user-testing.png" alt="" id="nickImage">
+    <div class="user-info">
+      <h2>Who are you?</h2>
+      <br/>
+      <p id="nickError"></p>
+      <form id="setNick">
+        <input type="text" id="nickname" placeholder="your nick name"><br/>
+        <input type="text" id="email" placeholder="your email address"><br/>
+        <input type="submit" id="nick-submit" value="ENTER">
+      </form>
+    </div> 
   </div>
 
   <div id="contentWrap">
     <div id="chatWrap">
-      <div id="chat"></div>
-      <form id="send-message">
-        <input type="text" id="message" size="35">
-        <input type="submit">
-      </form>
+      <div class="chats-and-users">
+        <div id="chat">
+          <ul class="chat-msg-list">
+            <!-- message goes display here -->
+          </ul>
+        </div>
+        <div id="users">
+          <ul class="users-list"></ul>
+        </div>
+      </div>
+      
+
+      <div class="send-message-footer">
+        <form id="send-message">
+          <textarea id="message" placeholder="Write something"></textarea>
+          <input type="submit" id="submit" value="SEND">
+        </form>
+      </div>
     </div>
 
-    <div id="users"></div>
+    
   </div>

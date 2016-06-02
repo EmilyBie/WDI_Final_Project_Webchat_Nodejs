@@ -46,10 +46,6 @@ app.get('/private',function(req, res){
 });
 
 
-
-
-
-
 // server side socket
 io.sockets.on('connection',function(socket) {
   var query = Chat.find({});
@@ -94,6 +90,7 @@ io.sockets.on('connection',function(socket) {
     } else {
       var newMsg = new Chat({msg: msg, nick: socket.nickname});
       newMsg.save(function(err) {
+        debugger
         if (err) { throw err;}
         io.sockets.emit('new message', {msg: msg, nick: socket.nickname});
       });
